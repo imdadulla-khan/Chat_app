@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
+import { doc, updateDoc } from "firebase/firestore";
 
 const Login = () => {
   const [err, setErr] = useState(false);
@@ -13,12 +14,27 @@ const Login = () => {
     const password = e.target[1].value;
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      // Sign in the user
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+
+      // Update the user's online status in Firestore
+      await updateDoc(doc(db, "users", user.uid), {
+        online: true, // Mark user as online
+      });
+
+      // Navigate to the home page
       navigate("/");
     } catch (err) {
+      console.error("Error logging in:", err);
       setErr(true);
     }
   };
+
   return (
     <div className="formContainer">
       <div className="formWrapper">

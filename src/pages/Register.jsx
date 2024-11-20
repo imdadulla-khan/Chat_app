@@ -30,6 +30,9 @@ const Register = () => {
         uid: res.user.uid,
         displayName,
         email,
+        online: true,
+        lastSeen: new Date(),
+        createdAt: new Date(),
       });
 
       // Create empty user chats on Firestore
@@ -55,9 +58,11 @@ const Register = () => {
           <input required type="password" placeholder="Password" />
           <button disabled={loading}>Sign up</button>
           {loading && "Processing your request, please wait..."}
-          {err && <span>Something went wrong</span>}
+          {err && <span>Something went wrong, please try again.</span>}
         </form>
-        <p>Already have an account? Login</p>
+        <p>
+          Already have an account? <Link to="/login">Login</Link>
+        </p>
       </div>
     </div>
   );
