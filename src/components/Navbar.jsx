@@ -22,7 +22,7 @@ const Navbar = () => {
   const { currentUser } = useContext(AuthContext);
   return (
     <div className="navbar">
-      <span className="logo">Chat App</span>
+      <span className="logo">iChat</span>
       <div className="user">
         <img src={logo} alt="Ichat logo" />
         <span>{currentUser.displayName}</span>
